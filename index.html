@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login - Barberians</title>
+	<!-- Importa o CSS principal da página -->
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<!-- Tela dividida: frase de impacto à esquerda, login à direita -->
+	<div class="main-container">
+		<!-- Esquerda: logo grande e frase de impacto -->
+		<div class="impact-section">
+			<div class="logo-barber-large">
+				<span class="logo-icon-large">✂️</span>
+				<h1>Barberians</h1>
+			</div>
+			<p class="impact-phrase">
+				A rede social que conecta cabeleireiros de todo o país.
+			</p>
+		</div>
+		<!-- Direita: caixa de login/cadastro -->
+		<div class="login-container">
+			<div class="login-box">
+				<!-- Logo pequena, só aparece no mobile -->
+				<div class="logo-barber mobile-only">
+					<span class="logo-icon">✂️</span>
+					<h1>Barbearia Social</h1>
+				</div>
+				<!-- Área de Login -->
+				<div id="loginSection">
+					<h2>Login</h2>
+					<form id="loginForm">
+						<input type="text" name="username" placeholder="Usuário ou E-mail" required>
+						<input type="password" name="password" placeholder="Senha" required>
+						<button type="submit">Entrar</button>
+					</form>
+					<div class="login-footer">
+						<a href="#">Esqueceu a senha?</a>
+						<span>|</span>
+						<a href="#" id="openRegister">Criar conta</a>
+					</div>
+				</div>
+				<!-- Área de Cadastro -->
+				<div id="registerSection" style="display:none;">
+					<h2>Cadastro</h2>
+					<form id="registerForm">
+						<input type="text" name="fullName" placeholder="Nome completo" required>
+						<input type="email" name="email" placeholder="E-mail" required>
+						<input type="tel" name="phone" placeholder="Telefone" required>
+						<input type="text" name="username" placeholder="Nome de usuário" required>
+						<input type="password" name="password" placeholder="Senha" required>
+						<input type="password" name="confirmPassword" placeholder="Confirmar senha" required>
+						<button type="submit">Cadastrar</button>
+					</form>
+					<div class="login-footer">
+						<a href="#" id="backToLogin">Já tem conta? Entrar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 
+		Integração com backend feito em C# usando Dotnet Core.
+		Por padrão, as requisições vão para http://localhost:8080/api/login.
+		Se o backend estiver em outro endereço ou porta, é só trocar a URL abaixo.
+		No backend, crie um endpoint assim:
+
+		[HttpPost("api/login")]
+		public IActionResult Login([FromBody] LoginRequest login) {
+			// Valide usuário e senha, retorne 200 se ok, 401 se inválido
+		}
+
+		A classe LoginRequest precisa ter os campos 'username' e 'password'.
+	-->
+	<script>
+	const loginForm = document.getElementById('loginForm');
+
+	loginForm.addEventListener('submit', async function(event) {
+		event.preventDefault(); // Impede o envio padrão do formulário
+
+		const username = loginForm.username.value;
+		const password = loginForm.password.value;
+
+		const loginData = {
+			username: username,
+			password: password
+		};
+
+		try {
+			// Altere a URL abaixo se o backend estiver em outro endereço/porta/caminho
+			const response = await fetch('http://localhost:8080/api/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(loginData)
+			});
+
+			if (response.ok) {
+				// Login bem-sucedido, redirecione ou mostre mensagem
+				alert('Login realizado com sucesso!');
+				// window.location.href = '/pagina-principal.html';
+			} else if (response.status === 401) {
+				alert('Usuário ou senha inválidos.');
+			} else {
+				alert('Erro ao realizar login.');
+			}
+		} catch (error) {
+			alert('Erro ao conectar com o servidor.');
+		}
+	});
+
+	// Alternância entre login e cadastro
+	const openRegister = document.getElementById('openRegister');
+	const backToLogin = document.getElementById('backToLogin');
+	const loginSection = document.getElementById('loginSection');
+	const registerSection = document.getElementById('registerSection');
+
+	openRegister.addEventListener('click', function(e) {
+		e.preventDefault();
+		loginSection.style.display = 'none';
+		registerSection.style.display = 'block';
+	});
+	backToLogin.addEventListener('click', function(e) {
+		e.preventDefault();
+		registerSection.style.display = 'none';
+		loginSection.style.display = 'block';
+	});
+
+	// Envio do cadastro
+	const registerForm = document.getElementById('registerForm');
+	registerForm.addEventListener('submit', async function(event) {
+		event.preventDefault();
+		const data = {
+			fullName: registerForm.fullName.value,
+			email: registerForm.email.value,
+			phone: registerForm.phone.value,
+			username: registerForm.username.value,
+			password: registerForm.password.value
+		};
+		try {
+			const response = await fetch('http://localhost:8080/api/register', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
+			});
+			if (response.ok) {
+				alert('Cadastro realizado com sucesso!');
+				registerSection.style.display = 'none';
+				loginSection.style.display = 'block';
+				registerForm.reset();
+			} else {
+				alert('Erro ao cadastrar. Tente novamente.');
+			}
+		} catch (error) {
+			alert('Erro ao conectar com o servidor.');
+		}
+	});
+	</script>
+</body>
+</html>
