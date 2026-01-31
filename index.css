@@ -4,7 +4,7 @@ body {
 	font-family: 'Montserrat', Arial, sans-serif;
 	background: #111;
 	min-height: 100vh;
-	display: flex;
+	display: block; /* Remova flex do body para permitir rolagem */
 	align-items: center;
 	justify-content: center;
 	/* Fundo com imagem e overlay escuro */
@@ -21,10 +21,12 @@ body {
 	display: flex;
 	flex-direction: row;
 	width: 100vw;
-	height: 100vh;
-	/* Remova ou comente a linha abaixo */
-	/* background: linear-gradient(120deg, #111 60%, #1e90ff 100%); */
+	min-height: 100vh;
+	/* Remova height: 100vh; */
 	background: transparent;
+	padding-top: 32px;
+	padding-bottom: 32px;
+	box-sizing: border-box;
 }
 
 /* Área da frase de impacto à esquerda */
@@ -81,24 +83,41 @@ body {
 	justify-content: flex-end;
 	padding-right: 8vw;
 	background: transparent;
-	height: 100vh;
+	/* Remova height: 100vh; */
+	padding-top: 32px;
+	padding-bottom: 32px;
+	box-sizing: border-box;
 }
 
-/* Caixa do login/cadastro */
+/* Card elegante para login e cadastro */
 .login-box {
-	background: #181818e6;
-	border-radius: 20px;
-	box-shadow: 0 8px 32px rgba(0,0,0,0.7);
-		padding: 32px 32px;
+	background: rgba(255,255,255,0.07);
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgba(30,144,255,0.10), 0 2px 16px #0003;
+	border: 2px solid #1e90ff33;
+	padding: 36px 36px 28px 36px;
 	width: 100%;
 	max-width: 400px;
-	min-width: 260px;
+	min-width: 0;
 	display: flex;
 	flex-direction: column;
-	align-items: stretch;
-	border: 3px solid #1e90ff;
+	align-items: center;
 	position: relative;
 	transition: box-shadow 0.3s;
+	box-sizing: border-box;
+	margin: auto 0;
+	gap: 0;
+}
+
+/* Login visual limpo e centralizado */
+#loginSection h2 {
+	text-align: center;
+	width: 100%;
+	margin-bottom: 18px;
+	color: #1e90ff;
+	font-size: 1.7rem;
+	font-weight: 700;
+	letter-spacing: 1px;
 }
 
 /* Efeito de hover na caixa */
@@ -145,9 +164,35 @@ form {
 	flex-direction: column;
 		gap: 18px;
 	align-items: stretch;
+	box-sizing: border-box;
 }
 
-/* Inputs de texto, senha, email e telefone */
+/* Ajusta campos extras para profissional */
+#professionalFields {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+#professionalFields input[type="text"] {
+	margin-top: 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Ajusta o formulário para não ultrapassar a tela */
+form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	align-items: stretch;
+	box-sizing: border-box;
+}
+
+/* Ajusta inputs para ficarem maiores, mais legíveis e confortáveis */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -155,17 +200,19 @@ input[type="tel"] {
 	width: 100%;
 	max-width: 100%;
 	box-sizing: border-box;
-		padding: 14px 16px;
-		border-radius: 12px;
-		border: 1.5px solid #222;
-		background: #222;
-		color: #fff;
-		font-size: 1.08rem;
-		outline: none;
-		box-shadow: 0 2px 12px #0002;
-		margin: 0;
-		display: block;
-		transition: border 0.3s, box-shadow 0.3s;
+	padding: 20px 20px;
+	border-radius: 14px;
+	border: 1.5px solid #222;
+	background: #222;
+	color: #fff;
+	font-size: 1.22rem;
+	outline: none;
+	box-shadow: 0 2px 12px #0002;
+	margin: 0;
+	display: block;
+	transition: border 0.3s, box-shadow 0.3s;
+	min-height: 54px;
+	letter-spacing: 0.5px;
 }
 input:focus {
 		border: 1.5px solid #1e90ff;
@@ -196,11 +243,17 @@ button[type="submit"] {
 .login-footer {
 	margin-top: 24px;
 	display: flex;
-	gap: 8px;
+	gap: 18px;
 	color: #fff;
-	font-size: 0.95rem;
+	font-size: 1.05rem;
 	align-items: center;
 	justify-content: center;
+}
+.footer-separator {
+	color: #888;
+	font-weight: 400;
+	font-size: 1.1em;
+	user-select: none;
 }
 .login-footer a {
 	color: #1e90ff;
@@ -273,12 +326,13 @@ button[type="submit"] {
 		width: 98vw;
 		max-width: 98vw;
 		min-width: 0;
-		padding: 24px 2vw;
+		padding: 14px 2vw;
+		margin: 0 auto;
 	}
 	form {
 		width: 100%;
-		gap: 14px;
-		align-items: center;
+		gap: 12px;
+		align-items: stretch;
 	}
 	input[type="text"],
 	input[type="password"],
@@ -292,8 +346,16 @@ button[type="submit"] {
 	button[type="submit"] {
 		padding: 12px 0;
 	}
-	.mobile-only {
-		display: flex !important;
+	#professionalFields {
+		width: 100%;
+		gap: 14px;
+		margin-top: 14px;
+	}
+	#professionalFields input[type="text"] {
+		margin-top: 0;
+		width: 100%;
+		font-size: 1rem;
+		padding: 12px 8px;
 	}
 	.modal-content {
 		width: 95vw;
@@ -301,15 +363,211 @@ button[type="submit"] {
 	}
 }
 
-/* Esconde logo grande no mobile */
-.logo-barber-large {
-	display: flex;
+/* Garante que o conteúdo nunca fique cortado em telas muito pequenas */
+@media (max-width: 400px) {
+	.login-box {
+		padding: 8px 2vw;
+	}
+	form {
+		gap: 8px;
+	}
 }
-.mobile-only {
-	display: none;
+
+@media (max-width: 900px) {
+	.main-container {
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding-top: 16px;
+		padding-bottom: 16px;
+	}
+	.login-container {
+		width: 100vw;
+		padding-right: 0;
+		justify-content: center;
+		padding-top: 16px;
+		padding-bottom: 16px;
+	}
+	.login-box {
+		margin: 0 auto;
+	}
+}
+
+/* Layout horizontal para o cadastro mais limpo e elegante */
+.login-box.horizontal-cadastro {
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	max-width: 700px;
+	width: 100%;
+	padding: 36px 36px 28px 36px;
+	background: rgba(255,255,255,0.07);
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgba(30,144,255,0.10), 0 2px 16px #0003;
+	border: 2px solid #1e90ff33;
+	gap: 0;
+}
+
+#registerSection h2 {
+	text-align: center;
+	width: 100%;
+	margin-bottom: 18px;
+	color: #1e90ff;
+	font-size: 1.7rem;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.cadastro-columns {
+	display: flex;
+	flex-direction: row;
+	gap: 32px;
+	width: 100%;
+	justify-content: center;
+	background: none;
+}
+
+.cadastro-col {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.cadastro-columns .cadastro-col:not(:last-child) {
+	border-right: 1px solid #1e90ff22;
+	padding-right: 24px;
+}
+.cadastro-columns .cadastro-col:last-child {
+	padding-left: 24px;
+}
+
+#registerSection form {
+	align-items: center;
+}
+
+#registerSection button[type="submit"] {
+	margin: 28px auto 0 auto;
+	width: 60%;
+	max-width: 260px;
+	display: block;
+	font-size: 1.15rem;
+	letter-spacing: 1px;
 }
 
 #registerSection .login-footer {
-	margin-top: 18px;
 	justify-content: center;
+	margin-top: 18px;
+}
+
+/* Ajuste para campos de profissional ficarem alinhados e com espaçamento confortável */
+#professionalFields {
+	gap: 28px;
+	margin-top: 24px;
+}
+
+#professionalFields input[type="text"] {
+	margin-top: 0 !important;
+}
+
+/* Garante espaçamento entre todos os campos do cadastro */
+.cadastro-col input[type="text"],
+.cadastro-col input[type="password"],
+.cadastro-col input[type="email"],
+.cadastro-col input[type="tel"] {
+	margin-bottom: 18px;
+}
+
+/* Remove margem extra do último campo de cada coluna */
+.cadastro-col input[type="text"]:last-child,
+.cadastro-col input[type="password"]:last-child,
+.cadastro-col input[type="email"]:last-child,
+.cadastro-col input[type="tel"]:last-child {
+	margin-bottom: 0;
+}
+
+/* Responsividade: volta para coluna única no mobile/tablet */
+@media (max-width: 900px) {
+	.login-box.horizontal-cadastro {
+		flex-direction: column;
+		max-width: 98vw;
+		gap: 0;
+	}
+	.cadastro-columns {
+		flex-direction: column;
+		gap: 0;
+	}
+	.cadastro-col {
+		width: 100%;
+		padding: 0 !important;
+		border: none !important;
+	}
+	#registerSection button[type="submit"] {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+/* Login visual limpo e centralizado */
+#loginSection h2 {
+	text-align: center;
+	width: 100%;
+	margin-bottom: 18px;
+	color: #1e90ff;
+	font-size: 1.7rem;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+/* Efeito de hover na caixa */
+.login-box:hover {
+	box-shadow: 0 1px 40px 0 #1e90ff44, 0 8px 32px rgba(0,0,0,0.7);
+}
+
+/* Login visual limpo e centralizado */
+#loginSection form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 18px;
+}
+
+/* Ajuste para campos de profissional ficarem alinhados */
+#professionalFields {
+	gap: 10px;
+	margin-top: 8px;
+}
+
+/* Responsividade para login */
+@media (max-width: 600px) {
+	.login-box {
+		width: 98vw;
+		max-width: 98vw;
+		min-width: 0;
+		padding: 14px 2vw;
+		margin: 0 auto;
+	}
+	#loginSection input[type="text"],
+	#loginSection input[type="password"] {
+		max-width: 100%;
+		font-size: 1.08rem;
+		padding: 16px 10px;
+		min-height: 46px;
+	}
+	#loginSection button[type="submit"] {
+		width: 100%;
+		max-width: 100%;
+		padding: 12px 0;
+	}
+}
+
+/* Garante que o conteúdo nunca fique cortado em telas muito pequenas */
+@media (max-width: 400px) {
+	.login-box {
+		padding: 8px 2vw;
+	}
+	form {
+		gap: 8px;
+	}
 }

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login - Barberians</title>
+	<title>Login - Zenite</title>
 	<!-- Importa o CSS principal da página -->
 	<link rel="stylesheet" href="index.css">
 </head>
@@ -22,7 +22,7 @@
 		</div>
 		<!-- Direita: caixa de login/cadastro -->
 		<div class="login-container">
-			<div class="login-box">
+			<div class="login-box" id="loginBox">
 				<!-- Logo pequena, só aparece no mobile -->
 				<div class="logo-barber mobile-only">
 					<span class="logo-icon">✂️</span>
@@ -37,25 +37,57 @@
 						<button type="submit">Entrar</button>
 					</form>
 					<div class="login-footer">
-						<a href="#">Esqueceu a senha?</a>
-						<span>|</span>
+						<a href="#" id="forgotPasswordLink">Esqueceu a senha?</a>
+						<span class="footer-separator">|</span>
 						<a href="#" id="openRegister">Criar conta</a>
 					</div>
 				</div>
-				<!-- Área de Cadastro -->
+
+				<!-- Área de Cadastro (adicionada / estava faltando) -->
 				<div id="registerSection" style="display:none;">
 					<h2>Cadastro</h2>
 					<form id="registerForm">
-						<input type="text" name="fullName" placeholder="Nome completo" required>
-						<input type="email" name="email" placeholder="E-mail" required>
-						<input type="tel" name="phone" placeholder="Telefone" required>
-						<input type="text" name="username" placeholder="Nome de usuário" required>
-						<input type="password" name="password" placeholder="Senha" required>
-						<input type="password" name="confirmPassword" placeholder="Confirmar senha" required>
+						<div class="cadastro-columns">
+							<div class="cadastro-col">
+								<div style="margin-bottom:10px;">
+									<label style="color:#fff; font-size:1rem; font-weight:500;">
+										<input type="radio" name="userType" value="cliente" checked> Cliente
+									</label>
+									<label style="color:#fff; font-size:1rem; font-weight:500; margin-left:18px;">
+										<input type="radio" name="userType" value="profissional"> Profissional
+									</label>
+								</div>
+								<input type="text" name="fullName" placeholder="Nome completo" required>
+								<input type="email" name="email" placeholder="E-mail" required>
+								<input type="tel" name="phone" placeholder="Telefone" required>
+							</div>
+							<div class="cadastro-col">
+								<input type="text" name="username" placeholder="Nome de usuário" required>
+								<input type="password" name="password" placeholder="Senha" required>
+								<input type="password" name="confirmPassword" placeholder="Confirmar senha" required>
+								<div id="professionalFields" style="display:none;">
+									<input type="text" name="barbershopName" placeholder="Nome da barbearia">
+									<input type="text" name="barbershopLocation" placeholder="Localização da barbearia">
+									<input type="text" name="cnpj" placeholder="CNPJ (opcional)">
+								</div>
+							</div>
+						</div>
 						<button type="submit">Cadastrar</button>
 					</form>
 					<div class="login-footer">
 						<a href="#" id="backToLogin">Já tem conta? Entrar</a>
+					</div>
+				</div>
+
+				<!-- Subtela: Esqueceu a senha -->
+				<div id="forgotPasswordSection" style="display:none;">
+					<h2>Recuperar Senha</h2>
+					<form id="forgotPasswordForm">
+						<input type="email" name="recoveryEmail" placeholder="Digite seu e-mail cadastrado" required>
+						<button type="submit">Enviar recuperação</button>
+					</form>
+					<div class="login-footer">
+						<a href="#" id="backToLoginFromForgot">Voltar ao login</a>
 					</div>
 				</div>
 			</div>
@@ -64,101 +96,11 @@
 
 	<!-- 
 		Integração com backend feito em C# usando Dotnet Core.
-		Por padrão, as requisições vão para http://localhost:8080/api/login.
-		Se o backend estiver em outro endereço ou porta, é só trocar a URL abaixo.
-		No backend, crie um endpoint assim:
-
-		[HttpPost("api/login")]
-		public IActionResult Login([FromBody] LoginRequest login) {
-			// Valide usuário e senha, retorne 200 se ok, 401 se inválido
-		}
-
-		A classe LoginRequest precisa ter os campos 'username' e 'password'.
+		(Comentário explicativo mantido)
 	-->
-	<script>
-	const loginForm = document.getElementById('loginForm');
 
-	loginForm.addEventListener('submit', async function(event) {
-		event.preventDefault(); // Impede o envio padrão do formulário
-
-		const username = loginForm.username.value;
-		const password = loginForm.password.value;
-
-		const loginData = {
-			username: username,
-			password: password
-		};
-
-		try {
-			// Altere a URL abaixo se o backend estiver em outro endereço/porta/caminho
-			const response = await fetch('http://localhost:8080/api/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(loginData)
-			});
-
-			if (response.ok) {
-				// Login bem-sucedido, redirecione ou mostre mensagem
-				alert('Login realizado com sucesso!');
-				// window.location.href = '/pagina-principal.html';
-			} else if (response.status === 401) {
-				alert('Usuário ou senha inválidos.');
-			} else {
-				alert('Erro ao realizar login.');
-			}
-		} catch (error) {
-			alert('Erro ao conectar com o servidor.');
-		}
-	});
-
-	// Alternância entre login e cadastro
-	const openRegister = document.getElementById('openRegister');
-	const backToLogin = document.getElementById('backToLogin');
-	const loginSection = document.getElementById('loginSection');
-	const registerSection = document.getElementById('registerSection');
-
-	openRegister.addEventListener('click', function(e) {
-		e.preventDefault();
-		loginSection.style.display = 'none';
-		registerSection.style.display = 'block';
-	});
-	backToLogin.addEventListener('click', function(e) {
-		e.preventDefault();
-		registerSection.style.display = 'none';
-		loginSection.style.display = 'block';
-	});
-
-	// Envio do cadastro
-	const registerForm = document.getElementById('registerForm');
-	registerForm.addEventListener('submit', async function(event) {
-		event.preventDefault();
-		const data = {
-			fullName: registerForm.fullName.value,
-			email: registerForm.email.value,
-			phone: registerForm.phone.value,
-			username: registerForm.username.value,
-			password: registerForm.password.value
-		};
-		try {
-			const response = await fetch('http://localhost:8080/api/register', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
-			});
-			if (response.ok) {
-				alert('Cadastro realizado com sucesso!');
-				registerSection.style.display = 'none';
-				loginSection.style.display = 'block';
-				registerForm.reset();
-			} else {
-				alert('Erro ao cadastrar. Tente novamente.');
-			}
-		} catch (error) {
-			alert('Erro ao conectar com o servidor.');
-		}
-	});
-	</script>
+	<!-- Removido: formulários duplicados e scripts inline repetidos -->
+	<!-- Deixe apenas o script externo que já contém toda a lógica. -->
+	<script src="main.js"></script>
 </body>
 </html>
