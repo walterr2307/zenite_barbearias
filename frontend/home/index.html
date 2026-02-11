@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="../images/zenitelogo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Sidebar deslizante e collapsível -->
+    <div id="sidebar" class="sidebar collapsed">
+        <div class="sidebar-header">
+            <button id="sidebarClose" class="sidebar-close">✕</button> 
+            <img src="../images/zenitelogo.png" alt="Zenite Logo" class="logo-icon"> 
+            <a href="../home/index.html">
+            <h2>Zenite</h2>
+            </a>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active" data-page="home"><i class="fas fa-home menu-icon"></i><span class="menu-text"> Home</span></li>
+            <li data-page="agendamentos"><i class="fas fa-calendar-alt menu-icon"></i><span class="menu-text"> Agendamentos</span></li>
+            <li data-page="perfil"><i class="fas fa-user menu-icon"></i><span class="menu-text"> Perfil</span></li>
+            <li data-page="ajuda"><i class="fas fa-question-circle menu-icon"></i><span class="menu-text"> Preciso de ajuda</span></li>
+        </ul>
+    </div>
+
+    <!-- Overlay para fechar sidebar em mobile (opcional, mas mantido) -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <!-- Header (sem botão hambúrguer, pois agora é por hover) -->
+        <header class="header">
+            <h1>Bem-vindo a Zenite!</h1>
+        </header>
+
+        <!-- Seção de exploração -->
+        <section class="explore-section">
+            <h2>Explore barbearias e salões próximos</h2>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Digite seu CEP ou endereço (ex: 12345-678 ou Rua Exemplo, Cidade)">
+                <button id="searchBtn">Buscar</button>
+            </div>
+            <div id="loading" class="loading" style="display:none;">Buscando...</div>
+            <div id="results" class="results"></div>
+        </section>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
